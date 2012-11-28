@@ -1,0 +1,3 @@
+== Candid Backbone Calendar
+
+Candid is a web calendar based on Jquery and Backbone

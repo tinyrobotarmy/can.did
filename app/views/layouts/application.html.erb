@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Candid</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <%= yield %>
+
+  <%= javascript_include_tag "application" %>
+  <script type="text/javascript">
+    <%= yield :javascript %>
+  </script>
+</body>
+</html>

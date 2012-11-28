@@ -1,0 +1,12 @@
+.sass-cache
+.rspec
+/.bundle
+/vendor/bundle
+/log/*
+/tmp/*
+/db/*.sqlite3
+/coverage/
+/log/
+/spec/tmp/*
+**.orig
+rerun.txt

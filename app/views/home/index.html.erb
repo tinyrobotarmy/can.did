@@ -1,0 +1,6 @@
+<div id="candid"></div>
+<%= content_for :javascript do %>
+  $(document).ready(function(){
+    Candid.initialize({ events: [] });
+  });
+<% end -%>
