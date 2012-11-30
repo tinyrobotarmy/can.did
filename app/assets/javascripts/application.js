@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require xdate
+//= require message_box
 //= require underscore
 //= require backbone
 //= require backbone-support

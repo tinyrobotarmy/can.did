@@ -26,6 +26,9 @@ li.day {
   &:first-child {
     border:0;
   }
+  &.selected {
+    background-color: $selected;
+  }
 }
 
 ul.hours li {

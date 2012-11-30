@@ -10,7 +10,7 @@ Candid.Routers.Calendar = Backbone.Router.extend({
   start: function() {},
 
   week: function() {
-    var view = new Candid.Views.Week({collection: this.events, startDate: new XDate()});
+    var view = new Candid.Views.Week({collection: this.events, selectedDate: new XDate()});
     $('#candid').html(view.render().$el);
   }
 
