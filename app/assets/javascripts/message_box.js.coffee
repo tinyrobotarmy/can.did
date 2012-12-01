@@ -1,6 +1,5 @@
-class MessageBox
-  constructor: (messageBox) ->
-    @messageBox = messageBox
+class @MessageBox
+  constructor: (@messageBox) ->
     @closer = @messageBox.find("a.close")
     @closer.click $.proxy(@close, this)
     @open()  if @messageBox.children().length > 1
@@ -23,3 +22,5 @@ class MessageBox
     @messageBox.append "<div class=\"" + cssClass + "\">" + message + "</div>"
     @open()
     @messageBox.delay(2000).fadeOut "slow"
+
+# (exports ? this).MessageBox = MessageBox 
