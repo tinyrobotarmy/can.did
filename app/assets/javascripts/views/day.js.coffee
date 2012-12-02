@@ -9,11 +9,18 @@ class Candid.Views.Day extends Support.CompositeView
   render: ->
     @$el.html @template(model: @model)
     @renderHours()
+    @renderEvents()
     @$el.addClass('selected') if @selected
-    this
+    @
 
   renderHours: ->
     for hour in [1..24]
       view = new Candid.Views.Hour(model: hour )
       @renderChild view
       @$el.find("ul.hours").append view.$el
+
+  renderEvents: ->
+    for event in @collection
+      view = new Candid.Views.Event(model: event)
+      @renderChild view
+      @$el.find('ul.hours').append view.$el

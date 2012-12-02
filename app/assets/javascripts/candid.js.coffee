@@ -4,7 +4,7 @@ window.Candid =
   Views: {}
   Routers: {}
   initialize: (data) ->
-    new Candid.Routers.Calendar(events: data.events)
+    new Candid.Routers.Calendar(events: new Candid.Collections.Events(data.events))
     unless Backbone.history.started
       Backbone.history.start()
       Backbone.history.started = true

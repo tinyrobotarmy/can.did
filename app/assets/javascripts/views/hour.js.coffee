@@ -7,5 +7,4 @@ class Candid.Views.Hour extends Support.CompositeView
   initialize: (options) ->
 
   render: ->
-    @$el.html('hour ' + @model)
     @

@@ -1,16 +1,21 @@
 .calendar {
   text-align: center;
+  width:994px;
+  margin:0 auto;
 }
 ul.week {
   border: 1px solid $grey;
   display:inline-block;
   >li {
     display: inline-block;
-    width:140px;
+    width:135px;
+  }
+  >li.labels {
+    width:40px;
   }
 }
 
-li.day {
+li.day, li.labels {
   border-left:1px solid $grey;
   vertical-align: top;
   .heading {
@@ -31,7 +36,41 @@ li.day {
   }
 }
 
-ul.hours li {
-  height:50px;
-  border-top: 1px solid $grey;
+ul.hours {
+  position: relative;
+  li {
+    height:50px;
+    border-top: 1px solid $grey;
+  }
+}
+
+.event {
+  position:absolute;
+  top:0;
+  left: 0;
+  border: 2px $grey solid;
+  background: white;
+  width: 132px;
+  font-size: 12px;
+  @include border-radius(5px 5px 0 0);
+  .title {
+    font-weight: bold;
+    background-color: $light_grey
+  }
+}
+
+li.hour-label {
+  height:51px;
+  line-height: 51px;
+}
+
+.controls {
+  float:right;
+  font-size: 14px;
+  a {
+    margin-right:10px;
+    i {
+      font-size: 18px;
+    }
+  }
 }

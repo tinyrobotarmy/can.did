@@ -2,27 +2,52 @@ class Candid.Views.Week extends Support.CompositeView
   tagName: "div"
   className: "calendar"
   template: JST["week"]
-  events: {}
+  events: {
+    'click a.previous': 'previous'
+    'click a.today': 'today'
+    'click a.next': 'next'
+  }
   initialize: (options) ->
     @selectedDate = options.selectedDate
+    @militaryTime = options.militaryTime
     @startDate = @getStartDate(@selectedDate)
 
   render: ->
     @$el.html @template()
+    @renderLabels()
     @renderDays()
-    @setheading()
-    this
+    @setHeading()
+    @
+
+  renderLabels: ->
+    @$el.find("ul.week").append('<li class="labels"><div class="heading"></div><ul class="unstyled"></ul></li>')
+    for hour in [0..23]
+      view = new Candid.Views.Label(model: hour.toString(), militaryTime: @militaryTime )
+      @renderChild view
+      @$el.find("li.labels>ul").append view.$el
 
   renderDays: ->
     for index in [0..6]
       date = new XDate(@startDate).addDays(index)
-      view = new Candid.Views.Day(model: date, selected: date.getTime() == @selectedDate.getTime())
+      view = new Candid.Views.Day(model: date, selected: date.getTime() == @selectedDate.getTime(), collection: @collection.forDate(date))
       @renderChild view
       @$el.find("ul.week").append view.$el
 
   getStartDate: (date)->
     new XDate(date).addDays(- date.getDay())
 
-  setheading: ->
+  setHeading: ->
     @$el.find('.start-date').html(@startDate.toString('d MMMM'))
-    @$el.find('.end-date').html(@startDate.clone().addDays(7).toString('d MMMM'))
+    @$el.find('.end-date').html(@startDate.clone().addDays(6).toString('d MMMM'))
+
+  next: ->
+    @startDate.addDays(7)
+    @render()
+
+  previous: ->
+    @startDate.addDays(-7)
+    @render()
+
+  today: ->
+    @startDate = @getStartDate(@selectedDate)
+    @render()
