@@ -9,4 +9,6 @@ class Candid.Views.Event extends Support.CompositeView
   render: ->
     @$el.html(@template())
     @modelBinder.bind @model, @$el, @bindings
+    @$el.css('top', (@model.startDate().getHours() * 51) + 'px');
+    @$el.css('height', (@model.endDate().getHours() - @model.startDate().getHours()) * 51 - 4 + 'px');
     @

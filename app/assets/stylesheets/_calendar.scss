@@ -2,10 +2,13 @@
   text-align: center;
   width:994px;
   margin:0 auto;
+  position: relative;
 }
 ul.week {
   border: 1px solid $grey;
   display:inline-block;
+  height:600px;
+  overflow:auto;
   >li {
     display: inline-block;
     width:135px;
@@ -74,3 +77,10 @@ li.hour-label {
     }
   }
 }
+
+// .event-form {
+//   display: none;
+//   position:absolute;
+//   top:0;
+//   background-color: #fff;
+// }

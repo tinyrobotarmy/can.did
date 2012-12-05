@@ -6,11 +6,13 @@ class Candid.Views.Week extends Support.CompositeView
     'click a.previous': 'previous'
     'click a.today': 'today'
     'click a.next': 'next'
+    'click ul.week': 'toggleForm'
   }
   initialize: (options) ->
     @selectedDate = options.selectedDate
     @militaryTime = options.militaryTime
     @startDate = @getStartDate(@selectedDate)
+    @eventForm = null
 
   render: ->
     @$el.html @template()
@@ -51,3 +53,14 @@ class Candid.Views.Week extends Support.CompositeView
   today: ->
     @startDate = @getStartDate(@selectedDate)
     @render()
+
+  toggleForm: ->
+    if @eventForm == null
+      @eventForm = new Candid.Views.EventForm()
+      @renderChild @eventForm
+      @$el.find("ul.week").append @eventForm.$el
+    else
+      @eventForm.$el.fadeOut('fast')
+      @eventForm.leave()
+      @eventForm = null
+    false
