@@ -13,6 +13,8 @@ class Candid.Views.Week extends Support.CompositeView
     @militaryTime = options.militaryTime
     @startDate = @getStartDate(@selectedDate)
     @eventForm = null
+    $(document).keyup (event) => 
+      @keyListener(event)
 
   render: ->
     @$el.html @template()
@@ -54,13 +56,21 @@ class Candid.Views.Week extends Support.CompositeView
     @startDate = @getStartDate(@selectedDate)
     @render()
 
-  toggleForm: ->
+  toggleForm: (event) ->
     if @eventForm == null
-      @eventForm = new Candid.Views.EventForm()
+      @eventForm = new Candid.Views.EventForm(x: event.clientX, y: event.clientY)
       @renderChild @eventForm
       @$el.find("ul.week").append @eventForm.$el
     else
+      @hideForm()
+    false
+
+  keyListener: (event) ->
+    if event.keyCode == 27
+      @hideForm()
+
+  hideForm: ->
+    if @eventForm
       @eventForm.$el.fadeOut('fast')
       @eventForm.leave()
       @eventForm = null
-    false
