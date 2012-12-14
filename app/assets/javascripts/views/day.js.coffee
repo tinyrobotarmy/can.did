@@ -15,12 +15,20 @@ class Candid.Views.Day extends Support.CompositeView
 
   renderHours: ->
     for hour in [1..24]
-      view = new Candid.Views.Hour(model: hour )
+      view = new Candid.Views.Hour(model: @model.clone().addHours(hour) )
       @renderChild view
+      view.on('event:create', @createEvent, @)
       @$el.find("ul.hours").append view.$el
 
   renderEvents: ->
     for event in @collection
-      view = new Candid.Views.Event(model: event)
-      @renderChild view
-      @$el.find('ul.hours').append view.$el
+      @renderEvent(event)
+
+  renderEvent: (event) ->
+    view = new Candid.Views.Event(model: event)
+    @renderChild view
+    @$el.find('ul.hours').append view.$el
+
+  createEvent: (event) ->
+    @renderEvent(event)
+    @trigger('event:create', event)

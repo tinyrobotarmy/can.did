@@ -6,7 +6,6 @@ class Candid.Views.Week extends Support.CompositeView
     'click a.previous': 'previous'
     'click a.today': 'today'
     'click a.next': 'next'
-    'click ul.week': 'toggleForm'
   }
   initialize: (options) ->
     @selectedDate = options.selectedDate
@@ -35,6 +34,7 @@ class Candid.Views.Week extends Support.CompositeView
       date = new XDate(@startDate).addDays(index)
       view = new Candid.Views.Day(model: date, selected: date.getTime() == @selectedDate.getTime(), collection: @collection.forDate(date))
       @renderChild view
+      view.on('event:create', @showEventForm, @)
       @$el.find("ul.week").append view.$el
 
   getStartDate: (date)->
@@ -56,13 +56,10 @@ class Candid.Views.Week extends Support.CompositeView
     @startDate = @getStartDate(@selectedDate)
     @render()
 
-  toggleForm: (event) ->
-    if @eventForm == null
-      @eventForm = new Candid.Views.EventForm(x: event.clientX, y: event.clientY)
-      @renderChild @eventForm
-      @$el.find("ul.week").append @eventForm.$el
-    else
-      @hideForm()
+  showEventForm: (event) ->
+    @eventForm = new Candid.Views.EventForm(x: event.get('clientX'), y: event.get('clientY'), model: event)
+    @renderChild @eventForm
+    @$el.find("ul.week").append @eventForm.$el
     false
 
   keyListener: (event) ->
