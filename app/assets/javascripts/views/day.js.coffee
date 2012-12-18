@@ -44,3 +44,4 @@ class Candid.Views.Day extends Support.CompositeView
 
   eventEditCancelled: (event) ->
     @eventEditing = false
+    @render()
