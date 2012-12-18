@@ -5,6 +5,7 @@ class Candid.Views.Day extends Support.CompositeView
 
   initialize: (options) ->
     @selected = options.selected
+    @eventEditing = false
 
   render: ->
     @$el.html @template(model: @model)
@@ -12,6 +13,10 @@ class Candid.Views.Day extends Support.CompositeView
     @renderEvents()
     @$el.addClass('selected') if @selected
     @
+
+  afterRender: ->
+    @parent.on('event:editStarted', @eventEditStarted, @)
+    @parent.on('event:editCancelled', @eventEditCancelled, @)
 
   renderHours: ->
     for hour in [1..24]
@@ -30,5 +35,12 @@ class Candid.Views.Day extends Support.CompositeView
     @$el.find('ul.hours').append view.$el
 
   createEvent: (event) ->
-    @renderEvent(event)
-    @trigger('event:create', event)
+    unless @eventEditing
+      @renderEvent(event)
+      @trigger('event:create', event)
+
+  eventEditStarted: (event) ->
+    @eventEditing = true
+
+  eventEditCancelled: (event) ->
+    @eventEditing = false

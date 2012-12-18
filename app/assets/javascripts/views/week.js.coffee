@@ -31,9 +31,10 @@ class Candid.Views.Week extends Support.CompositeView
 
   renderDays: ->
     for index in [0..6]
-      date = new XDate(@startDate).addDays(index)
+      date = new XDate(@startDate.getFullYear(), @startDate.getMonth(), @startDate.getDate(), 0,0,0).addDays(index)
       view = new Candid.Views.Day(model: date, selected: date.getTime() == @selectedDate.getTime(), collection: @collection.forDate(date))
       @renderChild view
+      view.afterRender()
       view.on('event:create', @showEventForm, @)
       @$el.find("ul.week").append view.$el
 
@@ -60,11 +61,13 @@ class Candid.Views.Week extends Support.CompositeView
     @eventForm = new Candid.Views.EventForm(x: event.get('clientX'), y: event.get('clientY'), model: event)
     @renderChild @eventForm
     @$el.find("ul.week").append @eventForm.$el
+    @trigger('event:editStarted')
     false
 
   keyListener: (event) ->
     if event.keyCode == 27
       @hideForm()
+      @trigger('event:editCancelled')
 
   hideForm: ->
     if @eventForm
