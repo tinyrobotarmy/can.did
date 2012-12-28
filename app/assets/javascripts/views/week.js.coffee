@@ -62,12 +62,15 @@ class Candid.Views.Week extends Support.CompositeView
     @renderChild @eventForm
     @$el.find("ul.week").append @eventForm.$el
     @trigger('event:editStarted')
+    @eventForm.on('event:cancel', @cancelEdit, @)
     false
 
   keyListener: (event) ->
-    if event.keyCode == 27
-      @hideForm()
-      @trigger('event:editCancelled')
+    @cancelEdit(@eventForm.model) if event.keyCode == 27
+
+  cancelEdit: (event) ->
+    @hideForm()
+    @trigger('event:editCancelled', event)
 
   hideForm: ->
     if @eventForm

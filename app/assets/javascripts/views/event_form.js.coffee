@@ -4,6 +4,7 @@ class Candid.Views.EventForm extends Support.CompositeView
 
   events: {
     'click .btn-primary': 'save'
+    'click .cancel': 'cancel'
   }
 
   initialize: (options) ->
@@ -20,7 +21,7 @@ class Candid.Views.EventForm extends Support.CompositeView
     @
 
   save: (event) ->
-    @model.save()
+    # @model.save()
     #trigger an event for adding to collection
 
   cancel: (event) ->
