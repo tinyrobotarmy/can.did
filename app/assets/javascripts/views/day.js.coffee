@@ -6,9 +6,11 @@ class Candid.Views.Day extends Support.CompositeView
   initialize: (options) ->
     @selected = options.selected
     @eventEditing = false
+    @heading = options.heading
 
   render: ->
     @$el.html @template(model: @model)
+    @heading.html('<h3>' + @model.toString('d dddd') + '</h3>')
     @renderHours()
     @renderEvents()
     @$el.addClass('selected') if @selected

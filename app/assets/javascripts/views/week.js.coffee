@@ -23,7 +23,7 @@ class Candid.Views.Week extends Support.CompositeView
     @
 
   renderLabels: ->
-    @$el.find("ul.week").append('<li class="labels"><div class="heading"></div><ul class="unstyled"></ul></li>')
+    @$el.find("ul.days").append('<li class="labels"><div class="heading"></div><ul class="unstyled"></ul></li>')
     for hour in [0..23]
       view = new Candid.Views.Label(model: hour.toString(), militaryTime: @militaryTime )
       @renderChild view
@@ -32,11 +32,12 @@ class Candid.Views.Week extends Support.CompositeView
   renderDays: ->
     for index in [0..6]
       date = new XDate(@startDate.getFullYear(), @startDate.getMonth(), @startDate.getDate(), 0,0,0).addDays(index)
-      view = new Candid.Views.Day(model: date, selected: date.getTime() == @selectedDate.getTime(), collection: @collection.forDate(date))
+      $heading = $('<li></li>').appendTo(@$el.find("ul.day-headings"))
+      view = new Candid.Views.Day(model: date, selected: date.getTime() == @selectedDate.getTime(), collection: @collection.forDate(date), heading: $heading)
       @renderChild view
       view.afterRender()
       view.on('event:create', @showEventForm, @)
-      @$el.find("ul.week").append view.$el
+      @$el.find("ul.days").append view.$el
 
   getStartDate: (date)->
     new XDate(date).addDays(- date.getDay())
@@ -60,7 +61,7 @@ class Candid.Views.Week extends Support.CompositeView
   showEventForm: (event) ->
     @eventForm = new Candid.Views.EventForm(x: event.get('clientX'), y: event.get('clientY'), model: event)
     @renderChild @eventForm
-    @$el.find("ul.week").append @eventForm.$el
+    @$el.find("div.week").append @eventForm.$el
     @trigger('event:editStarted')
     @eventForm.on('event:cancel', @cancelEdit, @)
     false

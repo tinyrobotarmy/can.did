@@ -22,5 +22,3 @@ class @MessageBox
     @messageBox.append "<div class=\"" + cssClass + "\">" + message + "</div>"
     @open()
     @messageBox.delay(2000).fadeOut "slow"
-
-# (exports ? this).MessageBox = MessageBox 
