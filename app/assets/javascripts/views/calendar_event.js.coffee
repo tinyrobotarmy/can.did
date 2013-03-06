@@ -1,6 +1,6 @@
-class Candid.Views.Event extends Support.CompositeView
+class Candid.Views.CalendarEvent extends Support.CompositeView
   className: 'event'
-  template: JST['event']
+  template: JST['calendar_event']
 
   initialize: (options) ->
     @modelBinder = new Backbone.ModelBinder()

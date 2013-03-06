@@ -12,7 +12,7 @@ class Candid.Views.Week extends Support.CompositeView
     @militaryTime = options.militaryTime
     @startDate = @getStartDate(@selectedDate)
     @eventForm = null
-    $(document).keyup (event) => 
+    $(document).keyup (event) =>
       @keyListener(event)
 
   render: ->
@@ -36,7 +36,7 @@ class Candid.Views.Week extends Support.CompositeView
       view = new Candid.Views.Day(model: date, selected: date.getTime() == @selectedDate.getTime(), collection: @collection.forDate(date), heading: $heading)
       @renderChild view
       view.afterRender()
-      view.on('event:create', @showEventForm, @)
+      view.on('calendarEvent:create', @showEventForm, @)
       @$el.find("ul.days").append view.$el
 
   getStartDate: (date)->
@@ -58,20 +58,20 @@ class Candid.Views.Week extends Support.CompositeView
     @startDate = @getStartDate(@selectedDate)
     @render()
 
-  showEventForm: (event) ->
-    @eventForm = new Candid.Views.EventForm(x: event.get('clientX'), y: event.get('clientY'), model: event)
+  showEventForm: (calendarEvent) ->
+    @eventForm = new Candid.Views.EventForm(x: calendarEvent.get('clientX'), y: calendarEvent.get('clientY'), model: calendarEvent)
     @renderChild @eventForm
     @$el.find("div.week").append @eventForm.$el
-    @trigger('event:editStarted')
-    @eventForm.on('event:cancel', @cancelEdit, @)
+    @trigger('calendarEvent:editStarted')
+    @eventForm.on('calendarEvent:cancel', @cancelEdit, @)
     false
 
   keyListener: (event) ->
     @cancelEdit(@eventForm.model) if event.keyCode == 27
 
-  cancelEdit: (event) ->
+  cancelEdit: (calendarEvent) ->
     @hideForm()
-    @trigger('event:editCancelled', event)
+    @trigger('calendarEvent:editCancelled', calendarEvent)
 
   hideForm: ->
     if @eventForm
