@@ -22,7 +22,9 @@ class Candid.Views.EventForm extends Support.CompositeView
 
   save: (event) ->
     # @model.save()
-    #trigger an event for adding to collection
+    @trigger('calendarEvent:created', @model)
+    false
 
   cancel: (event) ->
     @trigger('calendarEvent:cancel', @model)
+    false

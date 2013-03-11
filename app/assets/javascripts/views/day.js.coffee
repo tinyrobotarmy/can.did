@@ -18,10 +18,11 @@ class Candid.Views.Day extends Support.CompositeView
 
   afterRender: ->
     @parent.on('calendarEvent:editStarted', @eventEditStarted, @)
-    @parent.on('calendarEvent:editCancelled', @eventEditCancelled, @)
+    @parent.on('calendarEvent:editCancelled', @eventEditComplete, @)
+    @parent.on('calendarEvent:editCreated', @eventCreated, @)
 
   renderHours: ->
-    for hour in [1..24]
+    for hour in [0..23]
       view = new Candid.Views.Hour(model: @model.clone().addHours(hour) )
       @renderChild view
       view.on('calendarEvent:create', @createEvent, @)
@@ -37,13 +38,22 @@ class Candid.Views.Day extends Support.CompositeView
     @$el.find('ul.hours').append view.$el
 
   createEvent: (calendarEvent) ->
-    unless @eventEditing
+    if @isToday(calendarEvent.startDate()) && !@eventEditing
       @renderEvent(calendarEvent)
       @trigger('calendarEvent:create', calendarEvent)
 
   eventEditStarted: (event) ->
     @eventEditing = true
 
-  eventEditCancelled: (event) ->
+  eventCreated: (calendarEvent) ->
+    if @isToday(calendarEvent.startDate())
+      @collection.push(calendarEvent)
+      @eventEditComplete(calendarEvent)
+    @eventEditing = false
+
+  eventEditComplete: (calendarEvent) ->
     @eventEditing = false
     @render()
+
+  isToday: (date) ->
+    date.clone().clearTime().diffDays(@model) == 0

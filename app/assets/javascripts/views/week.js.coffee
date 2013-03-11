@@ -64,6 +64,7 @@ class Candid.Views.Week extends Support.CompositeView
     @$el.find("div.week").append @eventForm.$el
     @trigger('calendarEvent:editStarted')
     @eventForm.on('calendarEvent:cancel', @cancelEdit, @)
+    @eventForm.on('calendarEvent:created', @savedCalendarEvent, @)
     false
 
   keyListener: (event) ->
@@ -72,6 +73,11 @@ class Candid.Views.Week extends Support.CompositeView
   cancelEdit: (calendarEvent) ->
     @hideForm()
     @trigger('calendarEvent:editCancelled', calendarEvent)
+
+  savedCalendarEvent: (calendarEvent) ->
+    @collection.add(calendarEvent)
+    @trigger('calendarEvent:editCreated', calendarEvent)
+    @hideForm()
 
   hideForm: ->
     if @eventForm
