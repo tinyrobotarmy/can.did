@@ -34,12 +34,17 @@ class Candid.Views.Day extends Support.CompositeView
 
   renderEvent: (calendarEvent) ->
     view = new Candid.Views.CalendarEvent(model: calendarEvent)
+    view.on('calendarEvent:edit', @editEvent, @)
     @renderChild view
     @$el.find('ul.hours').append view.$el
 
   createEvent: (calendarEvent) ->
     if @isToday(calendarEvent.startDate()) && !@eventEditing
       @renderEvent(calendarEvent)
+      @trigger('calendarEvent:create', calendarEvent)
+
+  editEvent: (calendarEvent) ->
+    if @isToday(calendarEvent.startDate()) && !@eventEditing
       @trigger('calendarEvent:create', calendarEvent)
 
   eventEditStarted: (event) ->
