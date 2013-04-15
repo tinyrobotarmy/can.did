@@ -98,7 +98,7 @@ li.hour-label {
 }
 
 // Overrides for firefox
-@-moz-document url-prefix() { 
+@-moz-document url-prefix() {
   ul.days > li, ul.day-headings > li {
     width:133px;
   }

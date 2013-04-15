@@ -3,7 +3,9 @@ class Candid.Views.Hour extends Support.CompositeView
   className: 'hour'
 
   events: {
-    'click': 'newEvent'
+    'click': 'newEvent',
+    'drop': 'drop',
+    'dragover': 'dragOver'
   }
 
   initialize: (options) ->
@@ -19,3 +21,10 @@ class Candid.Views.Hour extends Support.CompositeView
         clientX: event.clientX,
         clientY: event.clientY
       }))
+
+  drop: (event) ->
+    event.preventDefault()
+    @trigger('calendarEvent:moveCompleted', @model.clone())
+
+  dragOver: (event) ->
+    event.preventDefault()

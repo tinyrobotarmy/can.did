@@ -1,9 +1,11 @@
 class Candid.Views.CalendarEvent extends Support.CompositeView
   className: 'event'
   template: JST['calendar_event']
+  attributes: {draggable: true}
 
   events: {
-    'click': 'editEvent'
+    'click': 'editEvent',
+    'dragstart': 'dragStart'
   }
 
   initialize: (options) ->
@@ -21,3 +23,7 @@ class Candid.Views.CalendarEvent extends Support.CompositeView
     @model.clientX = event.clientX
     @model.clientY = event.clientY
     @trigger('calendarEvent:edit', @model)
+
+  dragStart: (event) ->
+    @$el.css('opacity', 0.3)
+    @trigger('calendarEvent:moving', @model)

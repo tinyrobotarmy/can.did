@@ -37,6 +37,8 @@ class Candid.Views.Week extends Support.CompositeView
       @renderChild view
       view.afterRender()
       view.on('calendarEvent:create', @showEventForm, @)
+      view.on('calendarEvent:moving', @moveEvent, @)
+      view.on('calendarEvent:moveCompleted', @moveCompleted, @)
       @$el.find("ul.days").append view.$el
 
   getStartDate: (date)->
@@ -57,6 +59,16 @@ class Candid.Views.Week extends Support.CompositeView
   today: ->
     @startDate = @getStartDate(@selectedDate)
     @render()
+
+  moveEvent: (calendarEvent) ->
+    @eventMoving = calendarEvent
+
+  moveCompleted: (startDate) ->
+    duration = @eventMoving.durationInHours()
+    @eventMoving.start_date = startDate.toString()
+    @eventMoving.end_date = startDate.addHours(duration).toString()
+    #TODO: need to get one or more days (depending on whether the drag was across days) to update their collections
+    #and re-render
 
   showEventForm: (calendarEvent) ->
     @eventForm = new Candid.Views.EventForm(x: calendarEvent.get('clientX'), y: calendarEvent.get('clientY'), model: calendarEvent)
