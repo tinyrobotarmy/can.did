@@ -1,11 +1,11 @@
-#= require models/event
-#= require collections/events
+#= require models/calendar_event
+#= require collections/calendar_events
 
-describe 'Candid.Collections.Events', ->
+describe 'Candid.Collections.CalendarEvents', ->
   events = null
 
   beforeEach ->
-    events = new Candid.Collections.Events([{title: "Awesome Event", desription: 'have a great time at this event',start_date: '2012-12-02 12:00:00', end_date: '2012-12-02 14:00:00', location: 'At your house'},{title: "Great Event", desription: 'laugh it up little guy', start_date: '2012-12-03 14:00:00', end_date: '2012-12-02 15:00:00',location: 'At my place'}])
+    events = new Candid.Collections.CalendarEvents([{title: "Awesome Event", desription: 'have a great time at this event',start_date: '2012-12-02 12:00:00', end_date: '2012-12-02 14:00:00', location: 'At your house'},{title: "Great Event", desription: 'laugh it up little guy', start_date: '2012-12-03 14:00:00', end_date: '2012-12-02 15:00:00',location: 'At my place'}])
 
   it 'is a collection of Event models', ->
     events.model.should == Candid.Models.Event

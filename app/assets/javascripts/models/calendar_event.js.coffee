@@ -1,6 +1,9 @@
 class Candid.Models.CalendarEvent extends Backbone.Model
   startDate: ->
-    new XDate(@.get('start_date'))
+    @_startDate ||= new XDate(@.get('start_date'))
 
   endDate: ->
-    new XDate(@.get('end_date'))
+    @_endDate ||= new XDate(@.get('end_date'))
+
+  durationInHours: ->
+    @startDate().diffHours(@endDate())
