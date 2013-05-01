@@ -7,6 +7,8 @@ class Candid.Views.Day extends Support.CompositeView
     @selected = options.selected
     @eventEditing = false
     @heading = options.heading
+    @collection.bind('add', @render, @)
+    @collection.bind('remove', @render, @)
 
   render: ->
     @$el.html @template(model: @model)
@@ -30,7 +32,7 @@ class Candid.Views.Day extends Support.CompositeView
       @$el.find("ul.hours").append view.$el
 
   renderEvents: ->
-    for calendarEvent in @collection
+    for calendarEvent in @collection.toArray()
       @renderEvent(calendarEvent)
 
   renderEvent: (calendarEvent) ->
@@ -62,7 +64,7 @@ class Candid.Views.Day extends Support.CompositeView
 
   eventCreated: (calendarEvent) ->
     if @isToday(calendarEvent.startDate())
-      @collection.push(calendarEvent)
+      @collection.add(calendarEvent)
       @eventEditComplete(calendarEvent)
     @eventEditing = false
 
@@ -72,3 +74,9 @@ class Candid.Views.Day extends Support.CompositeView
 
   isToday: (date) ->
     date.clone().clearTime().diffDays(@model) == 0
+
+  removeEvent: (calendarEvent) ->
+    @collection.remove(calendarEvent)
+
+  addEvent: (calendarEvent) ->
+    @collection.add(calendarEvent)
