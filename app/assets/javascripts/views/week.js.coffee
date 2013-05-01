@@ -30,6 +30,7 @@ class Candid.Views.Week extends Support.CompositeView
       @$el.find("li.labels>ul").append view.$el
 
   renderDays: ->
+    @dayViews = {}
     for index in [0..6]
       date = new XDate(@startDate.getFullYear(), @startDate.getMonth(), @startDate.getDate(), 0,0,0).addDays(index)
       $heading = $('<li></li>').appendTo(@$el.find("ul.day-headings"))
@@ -40,6 +41,7 @@ class Candid.Views.Week extends Support.CompositeView
       view.on('calendarEvent:moving', @moveEvent, @)
       view.on('calendarEvent:moveCompleted', @moveCompleted, @)
       @$el.find("ul.days").append view.$el
+      @dayViews[date.toString('yyyy-MM-dd')] = view
 
   getStartDate: (date)->
     new XDate(date).addDays(- date.getDay())
@@ -65,10 +67,10 @@ class Candid.Views.Week extends Support.CompositeView
 
   moveCompleted: (startDate) ->
     duration = @eventMoving.durationInHours()
-    @eventMoving.start_date = startDate.toString()
-    @eventMoving.end_date = startDate.addHours(duration).toString()
-    #TODO: need to get one or more days (depending on whether the drag was across days) to update their collections
-    #and re-render
+    @dayViews[@eventMoving.startDate().toString('yyyy-MM-dd')].removeEvent(@eventMoving)
+    @eventMoving.setStartDate(startDate)
+    @eventMoving.setEndDate(startDate.clone().addHours(duration))
+    @dayViews[startDate.toString('yyyy-MM-dd')].addEvent(@eventMoving)
 
   showEventForm: (calendarEvent) ->
     @eventForm = new Candid.Views.EventForm(x: calendarEvent.get('clientX'), y: calendarEvent.get('clientY'), model: calendarEvent)
