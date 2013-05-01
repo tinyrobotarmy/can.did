@@ -6,6 +6,7 @@ class Candid.Views.CalendarEvent extends Support.CompositeView
   events: {
     'click': 'editEvent',
     'dragstart': 'dragStart'
+    'dragend': 'dragEnd'
   }
 
   initialize: (options) ->
@@ -27,3 +28,6 @@ class Candid.Views.CalendarEvent extends Support.CompositeView
   dragStart: (event) ->
     @$el.css('opacity', 0.3)
     @trigger('calendarEvent:moving', @model)
+
+  dragEnd: (event) ->
+    @$el.css('opacity', 1)
