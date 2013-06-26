@@ -1,12 +1,13 @@
 class Candid.Views.CalendarEvent extends Support.CompositeView
   className: 'event'
   template: JST['calendar_event']
-  attributes: {draggable: true}
 
   events: {
-    'click': 'editEvent',
-    'dragstart': 'dragStart'
+    'click': 'editEvent', # Maybe double click for editing? click for some type of additional info on focus?
+    'dragstart .title': 'dragStart'
+    'dragstart': 'resize'
     'dragend': 'dragEnd'
+    'mouseup': 'resize'
   }
 
   initialize: (options) ->
@@ -17,7 +18,8 @@ class Candid.Views.CalendarEvent extends Support.CompositeView
     @$el.html(@template())
     @modelBinder.bind @model, @$el, @bindings
     @$el.css('top', (@model.startDate().getHours() * 51) + 'px');
-    @$el.css('height', (@model.endDate().getHours() - @model.startDate().getHours()) * 51 - 4 + 'px');
+    @$el.css('height', (@model.durationInHours() * 51 - 4 + 'px'));
+    # @$el.find('.description').css('height', (@model.durationInHours() * 51 - 24 + 'px'));
     @
 
   editEvent: (event) ->
@@ -31,3 +33,7 @@ class Candid.Views.CalendarEvent extends Support.CompositeView
 
   dragEnd: (event) ->
     @$el.css('opacity', 1)
+
+  resize: (event) ->
+    if @$el.height() != @model.durationInHours() * 51 - 4
+      @model.setEndDate(@model.startDate().clone().addHours(Math.round(@$el.height() / 51)))

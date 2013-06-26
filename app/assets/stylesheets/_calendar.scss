@@ -68,16 +68,23 @@ ul.hours {
   top:0;
   left: 0;
   background: white;
-  width: 135px;
+  width: 133px;
   font-size: 12px;
+  border:1px solid $grey;
   @include box-shadow($grey 0 3px 5px);
   @include border-radius(5px 5px 0 0);
+  resize: vertical;
+  overflow:auto;
   .title {
     font-weight: bold;
     background-color: $light_grey;
     &:hover {
       cursor:move;
     }
+  }
+  .drag-bar {
+    height: 3px;
+    background: url(drag-handle.png) center no-repeat;
   }
 }
 
@@ -110,10 +117,3 @@ li.hour-label {
     width: 133px;
   }
 }
-
-// .event-form {
-//   display: none;
-//   position:absolute;
-//   top:0;
-//   background-color: #fff;
-// }
