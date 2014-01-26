@@ -1,0 +1,10 @@
+
+$grey: #ccc;
+$light_grey: #eee;
+$selected: #DDF4FB;
+$base_text_colour:#333;
+$error_colour:#c1272d;
+$notice_colour:#336600;
+
+@import 'message_box';
+@import 'calendar';

@@ -1,12 +1,5 @@
-.sass-cache
-.rspec
-/.bundle
-/vendor/bundle
-/log/*
-/tmp/*
-/db/*.sqlite3
-/coverage/
-/log/
-/spec/tmp/*
-**.orig
-rerun.txt
+tmp/
+node_modules/
+public/javascripts/application.js
+public/javascripts/templates.js
+public/stylsheets/application.css

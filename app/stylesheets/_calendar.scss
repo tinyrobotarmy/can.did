@@ -1,0 +1,117 @@
+.calendar {
+  text-align: center;
+  width:994px;
+  margin:0 auto;
+  position: relative;
+}
+
+.week {
+  height:600px;
+  overflow:none;
+}
+
+ul.days, ul.day-headings {
+  display:inline-block;
+  >li {
+    display: inline-block;
+    width:135px;
+  }
+  >li.labels {
+    width:40px;
+  }
+}
+
+ul.days {
+  height:600px;
+  overflow:scroll;
+}
+
+li.day, li.labels {
+  border-right:1px solid $grey;
+  vertical-align: top;
+  &.selected {
+    background-color: $selected;
+  }
+}
+
+ul.day-headings {
+  padding-left:40px;
+  margin-bottom:5px;
+  li {
+    border-right:1px solid $grey;
+    border-top:1px solid $grey;
+    border-bottom:1px solid $grey;
+    height:40px;
+    &:first-child {
+      border-left:1px solid $grey;
+    }
+    h3 {
+      font-size: 14px;
+      line-height: 30px;
+      margin: 0 0 0 5px;
+    }
+  }
+}
+
+ul.hours {
+  position: relative;
+  li {
+    height:50px;
+    border-top: 1px solid $grey;
+  }
+}
+
+.event {
+  position:absolute;
+  top:0;
+  left: 0;
+  background: white;
+  width: 133px;
+  font-size: 12px;
+  border:1px solid $grey;
+  // @include box-shadow($grey 0 3px 5px);
+  // @include border-radius(5px 5px 0 0);
+  resize: vertical;
+  overflow:auto;
+  .title {
+    font-weight: bold;
+    background-color: $light_grey;
+    &:hover {
+      cursor:move;
+    }
+  }
+  .drag-bar {
+    height: 3px;
+    background: url(drag-handle.png) center no-repeat;
+  }
+}
+
+li.hour-label {
+  height:51px;
+  line-height: 51px;
+}
+
+.controls {
+  float:right;
+  font-size: 14px;
+  a {
+    margin-right:10px;
+    i {
+      font-size: 18px;
+    }
+  }
+}
+
+// Overrides for firefox
+@-moz-document url-prefix() {
+  ul.days > li, ul.day-headings > li {
+    width:133px;
+  }
+  ul.day-headings {
+    margin-right: 15px;
+    padding-left: 40px;
+  }
+  .event {
+    width: 133px;
+  }
+}
